@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-header">
+    <h2>Overview</h2>
+    <p class="muted">Quick status for join requests and DM submissions.</p>
+</section>
+<section class="card-grid">
+    <article class="card stat-card">
+        <span>Total join requests</span>
+        <strong>{{ summary.total_join_requests }}</strong>
+    </article>
+    <article class="card stat-card">
+        <span>DMs sent</span>
+        <strong>{{ summary.dms_sent }}</strong>
+    </article>
+    <article class="card stat-card">
+        <span>Approvals</span>
+        <strong>{{ summary.approvals }}</strong>
+    </article>
+    <article class="card stat-card">
+        <span>Total submissions</span>
+        <strong>{{ summary.total_submissions }}</strong>
+    </article>
+    <article class="card stat-card">
+        <span>Pending</span>
+        <strong>{{ summary.pending_submissions }}</strong>
+    </article>
+    <article class="card stat-card">
+        <span>Approved</span>
+        <strong>{{ summary.approved_submissions }}</strong>
+    </article>
+    <article class="card stat-card">
+        <span>Rejected</span>
+        <strong>{{ summary.rejected_submissions }}</strong>
+    </article>
+</section>
+{% endblock %}
