@@ -1,0 +1,12 @@
+.env
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+telegram_welcome_bot.db
+telegram_welcome_bot.db-*
+.DS_Store
+.venv/
+venv/
+*.tar.gz
