@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="login-card">
+    <h2>Admin Login</h2>
+    <p class="muted">Use the password configured in <code>ADMIN_PASSWORD</code>.</p>
+    {% if error %}
+    <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+    <form method="post" action="/admin/login" class="stack">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required>
+        <button type="submit" class="button">Sign in</button>
+    </form>
+</section>
+{% endblock %}
