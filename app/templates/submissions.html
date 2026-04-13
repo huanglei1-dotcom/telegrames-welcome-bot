@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-header">
+    <h2>Submissions</h2>
+    <p class="muted">Review private DM responses and moderate them manually.</p>
+</section>
+
+<section class="card">
+    <form method="get" action="/admin/submissions" class="filters">
+        <label>
+            Status
+            <select name="status">
+                <option value="all" {% if filters.status == "all" %}selected{% endif %}>All</option>
+                <option value="pending" {% if filters.status == "pending" %}selected{% endif %}>Pending</option>
+                <option value="approved" {% if filters.status == "approved" %}selected{% endif %}>Approved</option>
+                <option value="rejected" {% if filters.status == "rejected" %}selected{% endif %}>Rejected</option>
+            </select>
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="valid_only" value="true" {% if filters.valid_only %}checked{% endif %}>
+            Valid only
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="duplicates_only" value="true" {% if filters.duplicates_only %}checked{% endif %}>
+            Duplicates only
+        </label>
+        <button type="submit" class="button">Apply</button>
+    </form>
+</section>
+
+<section class="table-card">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Received</th>
+                <th>Sender</th>
+                <th>User ID</th>
+                <th>Inviter</th>
+                <th>#</th>
+                <th>Valid</th>
+                <th>Duplicate</th>
+                <th>Member</th>
+                <th>Review</th>
+                <th>Raw text</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for submission in submissions %}
+            <tr>
+                <td>{{ submission.id }}</td>
+                <td>{{ submission.received_at.strftime("%Y-%m-%d %H:%M:%S") if submission.received_at else "" }}</td>
+                <td>{{ "@" ~ submission.sender_username if submission.sender_username else submission.sender_full_name }}</td>
+                <td>{{ submission.sender_user_id }}</td>
+                <td>{{ "@" ~ submission.inviter_username if submission.inviter_username else "-" }}</td>
+                <td>{{ "yes" if submission.hashtag_present else "no" }}</td>
+                <td>{{ "yes" if submission.parse_valid else "no" }}</td>
+                <td>{{ "yes" if submission.duplicate_candidate else "no" }}</td>
+                <td>{{ submission.member_status or "-" }}</td>
+                <td><span class="badge badge-{{ submission.review_status }}">{{ submission.review_status }}</span></td>
+                <td class="raw-text">{{ submission.raw_text }}</td>
+                <td>
+                    <form method="post" action="/admin/submissions/{{ submission.id }}/review" class="stack compact-form">
+                        <textarea name="note" rows="3" placeholder="Add note">{{ submission.review_note or "" }}</textarea>
+                        <div class="action-row">
+                            <button type="submit" name="action" value="approved" class="button">Approve</button>
+                            <button type="submit" name="action" value="rejected" class="button button-danger">Reject</button>
+                            <button type="submit" name="action" value="pending" class="button button-secondary">Pending</button>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12" class="muted center">No submissions found for the current filters.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
