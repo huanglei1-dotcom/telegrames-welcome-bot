@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-header">
+    <h2>Leaderboard</h2>
+    <p class="muted">Counts grouped by inviter username.</p>
+</section>
+<section class="table-card">
+    <table>
+        <thead>
+            <tr>
+                <th>Inviter</th>
+                <th>Total submissions</th>
+                <th>Approved submissions</th>
+                <th>Unique senders</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in leaderboard %}
+            <tr>
+                <td>@{{ row.inviter_username }}</td>
+                <td>{{ row.total_submissions }}</td>
+                <td>{{ row.approved_submissions or 0 }}</td>
+                <td>{{ row.unique_senders }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4" class="muted center">No inviter data yet.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
