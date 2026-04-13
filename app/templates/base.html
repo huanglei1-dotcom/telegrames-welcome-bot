@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title or "Telegram Welcome Bot" }}</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div>
+                <h1>Telegram Welcome Bot</h1>
+                <p class="muted">Admin dashboard</p>
+            </div>
+            {% if request.session.get("admin_authenticated") %}
+            <nav class="nav-links">
+                <a href="/admin">Resumen</a>
+                <a href="/admin/submissions">Submissions</a>
+                <a href="/admin/stats">Stats</a>
+                <a href="/admin/export.csv">CSV</a>
+                <form method="post" action="/admin/logout">
+                    <button type="submit" class="button button-secondary">Logout</button>
+                </form>
+            </nav>
+            {% endif %}
+        </div>
+    </header>
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
